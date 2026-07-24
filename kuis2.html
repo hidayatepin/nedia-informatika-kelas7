@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kuis 2 - Mencocokkan Peran & Tugas</title>
+    <style>
+        /* CSS Khusus Layar IFP (Raksasa) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            font-size: 24px; 
+            color: #2c3e50;
+            user-select: none; /* Mencegah teks tersorot saat di-drag */
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        h1 { font-size: 48px; color: #9b59b6; text-align: center; margin-bottom: 10px; }
+        h2 { font-size: 28px; color: #7f8c8d; text-align: center; margin-bottom: 30px; }
+        
+        .instruksi {
+            background-color: #f3e5f5;
+            border-left: 8px solid #9b59b6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        /* TAMPILAN 2 PANEL (GRID) */
+        .panel-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr; /* Panel kanan sedikit lebih lebar untuk deskripsi */
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .panel-judul {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
+        }
+
+        /* PANEL KIRI: KARTU YANG BISA DITARIK / DIKLIK */
+        .kartu-item {
+            background-color: #3498db;
+            color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            cursor: grab;
+            box-shadow: 0 6px 0 #2980b9;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .kartu-item:active { cursor: grabbing; }
+        
+        /* Status Terpilih (Tap-to-match) */
+        .kartu-item.terpilih {
+            background-color: #f1c40f !important;
+            color: #2c3e50 !important;
+            box-shadow: 0 6px 0 #f39c12 !important;
+            transform: scale(1.03);
+        }
+
+        /* PANEL KANAN: KOTAK TARGET (DROP ZONE) */
+        .drop-zone {
+            background-color: #fafafa;
+            border: 3px dashed #bdc3c7;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .drop-zone.hovered {
+            background-color: #e8f8f5;
+            border-color: #2ecc71;
+        }
+        .deskripsi-tugas {
+            font-size: 22px;
+            line-height: 1.4;
+            color: #34495e;
+            margin-bottom: 10px;
+        }
+
+        /* EFEK EVALUASI JAWABAN */
+        .jawaban-benar {
+            border: 4px solid #2ecc71 !important;
+            background-color: #d4efdf !important;
+        }
+        .jawaban-salah {
+            border: 4px solid #e74c3c !important;
+            background-color: #fadbd8 !important;
+        }
+
+        /* TOMBOL AKSI */
+        .btn-kembali {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #95a5a6;
+            border-radius: 10px;
+            box-shadow: 0 4px 0 #7f8c8d;
+            margin-bottom: 20px;
+        }
+        .btn-periksa {
+            width: 100%;
+            padding: 22px;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #27ae60;
+        }
+        .btn-periksa:active {
+            box-shadow: 0 2px 0 #27ae60;
+            transform: translateY(4px);
+        }
+
+        #hasil-evaluasi {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-kembali">🔙 Kembali ke Menu Utama</a>
+
+        <h1>🧩 Kuis 2: Mencocokkan Peran & Tugas</h1>
+        <h2>Pasangkan Istilah di Kiri dengan Tugas yang Tepat di Kanan</h2>
+
+        <div class="instruksi">
+            💡 <strong>Cara Bermain di IFP:</strong><br>
+            • <strong>Cara 1:</strong> Ketuk kartu di KIRI, lalu ketuk Kotak Target di KANAN.<br>
+            • <strong>Cara 2:</strong> Tarik (drag) kartu dari KIRI dan lepas (drop) di Kotak KANAN.
+        </div>
+
+        <div class="panel-container">
+            <!-- PANEL KIRI (ITEMS) -->
+            <div id="panel-kiri">
+                <div class="panel-judul">👈 Istilah / Peran</div>
+                
+                <div class="kartu-item" draggable="true" id="item-ketua" data-id="ketua">👑 Ketua Tim</div>
+                <div class="kartu-item" draggable="true" id="item-sekretaris" data-id="sekretaris">📝 Sekretaris</div>
+                <div class="kartu-item" draggable="true" id="item-riset" data-id="riset">🔍 Anggota Riset</div>
+                <div class="kartu-item" draggable="true" id="item-infografis" data-id="infografis">📊 Infografis</div>
+            </div>
+
+            <!-- PANEL KANAN (TARGET DROP ZONES) -->
+            <div id="panel-kanan">
+                <div class="panel-judul">👉 Deskripsi Tugas</div>
+
+                <div class="drop-zone" data-target="sekretaris">
+                    <div class="deskripsi-tugas">📌 Mencatat poin penting, hasil diskusi, dan jadwal kerja kelompok.</div>
+                </div>
+
+                <div class="drop-zone" data-target="infografis">
+                    <div class="deskripsi-tugas">📌 Media komunikasi visual gabungan teks ringkas dan gambar menarik.</div>
+                </div>
+
+                <div class="drop-zone" data-target="ketua">
+                    <div class="deskripsi-tugas">📌 Memimpin diskusi, membagi tugas, dan mengambil keputusan.</div>
+                </div>
+
+                <div class="drop-zone" data-target="riset">
+                    <div class="deskripsi-tugas">📌 Mencari informasi, data, dan bahan materi kelompok.</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-periksa" onclick="periksaJawaban()">✅ Periksa Jawaban Kelompok</button>
+        <div id="hasil-evaluasi"></div>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT LOGIKA HYBRID (DRAG & TAP) -->
+    <script>
+        let kartuTerpilih = null;
+
+        // 1. DUKUNGAN METODE TAP / SENTUH
+        const semuaKartu = document.querySelectorAll('.kartu-item');
+        const semuaDropZone = document.querySelectorAll('.drop-zone');
+
+        semuaKartu.forEach(kartu => {
+            // Klik/Tap pada kartu
+            kartu.addEventListener('click', function() {
+                semuaKartu.forEach(k => k.classList.remove('terpilih'));
+                this.classList.add('terpilih');
+                kartuTerpilih = this;
+            });
+
+            // Drag Start
+            kartu.addEventListener('dragstart', function(e) {
+                e.dataTransfer.setData('text/plain', this.id);
+                kartuTerpilih = this;
+            });
+        });
+
+        semuaDropZone.forEach(zone => {
+            // Tap/Klik pada Dropzone
+            zone.addEventListener('click', function() {
+                if (kartuTerpilih) {
+                    this.appendChild(kartuTerpilih);
+                    kartuTerpilih.classList.remove('terpilih');
+                    kartuTerpilih = null;
+                }
+            });
+
+            // Drag & Drop Events
+            zone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('hovered');
+            });
+
+            zone.addEventListener('dragleave', function() {
+                this.classList.remove('hovered');
+            });
+
+            zone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('hovered');
+                const idKartu = e.dataTransfer.getData('text/plain');
+                const elemenKartu = document.getElementById(idKartu);
+                if (elemenKartu) {
+                    this.appendChild(elemenKartu);
+                    elemenKartu.classList.remove('terpilih');
+                    kartuTerpilih = null;
+                }
+            });
+        });
+
+        // 2. LOGIKA PERIKSA JAWABAN
+        function periksaJawaban() {
+            let skorBenar = 0;
+            let totalSoal = semuaDropZone.length;
+
+            semuaDropZone.forEach(zone => {
+                const targetKunci = zone.getAttribute('data-target');
+                const kartuDiDalam = zone.querySelector('.kartu-item');
+
+                // Bersihkan efek warna sebelumnya
+                zone.classList.remove('jawaban-benar', 'jawaban-salah');
+
+                if (kartuDiDalam) {
+                    const idJawabanSiswa = kartuDiDalam.getAttribute('data-id');
+                    if (idJawabanSiswa === targetKunci) {
+                        zone.classList.add('jawaban-benar');
+                        skorBenar++;
+                    } else {
+                        zone.classList.add('jawaban-salah');
+                    }
+                } else {
+                    // Jika kotak belum diisi
+                    zone.classList.add('jawaban-salah');
+                }
+            });
+
+            // Tampilkan Skor Akhir
+            const kotakHasil = document.getElementById('hasil-evaluasi');
+            kotakHasil.style.display = 'block';
+            
+            const nilaiTotal = Math.round((skorBenar / totalSoal) * 100);
+            
+            if (nilaiTotal === 100) {
+                kotakHasil.style.backgroundColor = '#d4efdf';
+                kotakHasil.style.color = '#27ae60';
+                kotakHasil.innerHTML = "🎉 Luar Biasa! Semua Pasangan Benar (Skor: 100)";
+            } else {
+                kotakHasil.style.backgroundColor = '#fadbd8';
+                kotakHasil.style.color = '#c0392b';
+                kotakHasil.innerHTML = "❌ Ada Pasangan yang Masih Keliru (Skor: " + nilaiTotal + "). Coba Benahi Kartu Merah!";
+            }
+        }
+    </script>
+</body>
+</html>

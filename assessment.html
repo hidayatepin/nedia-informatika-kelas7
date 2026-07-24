@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Assessment Penilaian Kinerja Kelompok</title>
+    <style>
+        /* CSS Khusus Layar IFP (Raksasa) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            font-size: 24px; 
+            color: #2c3e50;
+            user-select: none;
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        h1 { font-size: 46px; color: #2980b9; text-align: center; margin-bottom: 10px; }
+        h2 { font-size: 28px; color: #7f8c8d; text-align: center; margin-bottom: 30px; }
+
+        /* VISUAL ALUR KERJA TIM (FLOWCHART) */
+        .alur-box {
+            background-color: #fcf8e3;
+            border: 3px solid #f1c40f;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .judul-alur {
+            font-size: 26px;
+            font-weight: bold;
+            color: #d35400;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .alur-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            text-align: center;
+        }
+        .alur-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 6px solid #e67e22;
+        }
+        .nomor-langkah {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e67e22;
+            margin-bottom: 5px;
+        }
+        .teks-langkah {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+
+        /* KOTAK DESKRIPSI TUGAS KELOMPOK */
+        .tugas-box {
+            background-color: #f4ecf7;
+            border-left: 8px solid #8e44ad;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 35px;
+        }
+        .judul-tugas {
+            font-size: 26px;
+            font-weight: bold;
+            color: #8e44ad;
+            margin-bottom: 15px;
+        }
+        .isi-tugas {
+            font-size: 22px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        .isi-tugas ul {
+            margin-top: 10px;
+            margin-bottom: 0;
+            padding-left: 30px;
+        }
+        .isi-tugas li {
+            margin-bottom: 10px;
+        }
+
+        /* FORM INPUT IDENTITAS KELOMPOK */
+        .form-identitas {
+            background-color: #ebf5fb;
+            border-left: 8px solid #3498db;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 22px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            font-size: 22px;
+            border-radius: 8px;
+            border: 2px solid #bdc3c7;
+            box-sizing: border-box;
+        }
+
+        /* CARD KRITERIA RUBRIK */
+        .rubrik-card {
+            background-color: #fafafa;
+            border: 2px solid #ecf0f1;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .judul-kriteria {
+            font-size: 26px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        /* OPSI SKOR 1 - 4 */
+        .opsi-skor-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .btn-skor-label {
+            background-color: white;
+            border: 3px solid #bdc3c7;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 20px;
+        }
+        .btn-skor-label:hover {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+        .btn-skor-label input[type="radio"] {
+            display: none;
+        }
+        .btn-skor-label.terpilih {
+            background-color: #3498db !important;
+            color: white !important;
+            border-color: #2980b9 !important;
+            font-weight: bold;
+        }
+
+        /* KOTAK HASIL PENILAIAN */
+        #hasil-penilaian {
+            display: none;
+            background-color: #e8f8f5;
+            border: 4px dashed #2ecc71;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        /* TOMBOL NAVIGASI & HITUNG */
+        .btn-kembali {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #95a5a6;
+            border-radius: 10px;
+            box-shadow: 0 4px 0 #7f8c8d;
+            margin-bottom: 20px;
+        }
+        .btn-hitung {
+            width: 100%;
+            padding: 22px;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #27ae60;
+        }
+        .btn-hitung:active {
+            box-shadow: 0 2px 0 #27ae60;
+            transform: translateY(4px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-kembali">🔙 Kembali ke Menu Utama</a>
+
+        <h1>📊 Assessment Kinerja Kelompok</h1>
+        <h2>Lembar Penilaian Formatif Proses Pembelajaran Informatika</h2>
+
+        <!-- BLOK 1: VISUAL ALUR KERJA TIM -->
+        <div class="alur-box">
+            <div class="judul-alur">🔄 Alur Kerja Proyek Kelompok</div>
+            <div class="alur-grid">
+                <div class="alur-card">
+                    <div class="nomor-langkah">Langkah 1</div>
+                    <div class="teks-langkah">👥 Bagi Peran Anggota</div>
+                </div>
+                <div class="alur-card">
+                    <div class="nomor-langkah">Langkah 2</div>
+                    <div class="teks-langkah">🔍 Riset & Olah Materi</div>
+                </div>
+                <div class="alur-card">
+                    <div class="nomor-langkah">Langkah 3</div>
+                    <div class="teks-langkah">📊 Susun Infografis</div>
+                </div>
+                <div class="alur-card">
+                    <div class="nomor-langkah">Langkah 4</div>
+                    <div class="teks-langkah">🎤 Presentasi di Kelas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BLOK 2: DESKRIPSI TUGAS KELOMPOK -->
+        <div class="tugas-box">
+            <div class="judul-tugas">📝 Deskripsi Tugas Pembuatan Infografis</div>
+            <div class="isi-tugas">
+                <strong>Instruksi Kelompok:</strong>
+                <ul>
+                    <li><strong>Topik:</strong> Pilih salah satu topik materi yang telah disediakan oleh guru.</li>
+                    <li><strong>Luaran:</strong> Buatlah media presentasi visual (Infografis) menggunakan Canva, PowerPoint, atau kertas karton.</li>
+                    <li><strong>Presentasi:</strong> Sampaikan hasil kerja kelompok kalian di depan kelas secara bergantian (Maksimal 5 menit per kelompok).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BLOK 3: IDENTITAS KELOMPOK YANG DINILAI -->
+        <div class="form-identitas">
+            <div class="form-group">
+                <label>Nama Kelompok:</label>
+                <input type="text" id="input-kelompok" placeholder="Contoh: Kelompok 1 (Algoritma)">
+            </div>
+            <div class="form-group">
+                <label>Kelas / Penilai:</label>
+                <input type="text" id="input-penilai" placeholder="Contoh: VII-A / Pak Epin">
+            </div>
+        </div>
+
+        <!-- KRITERIA 1 -->
+        <div class="rubrik-card">
+            <div class="judul-kriteria">1. Pembagian Peran & Tanggung Jawab</div>
+            <div class="opsi-skor-grid">
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria1" value="1" onclick="pilihSkor(this)">
+                    <div>🔴 Skor 1</div>
+                    <div style="font-size:16px; margin-top:5px;">Satu orang mendominasi seluruh kerja</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria1" value="2" onclick="pilihSkor(this)">
+                    <div>🟡 Skor 2</div>
+                    <div style="font-size:16px; margin-top:5px;">Peran dibagi tapi ada anggota yang pasif</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria1" value="3" onclick="pilihSkor(this)">
+                    <div>🔵 Skor 3</div>
+                    <div style="font-size:16px; margin-top:5px;">Peran terbagi jelas & semua bekerja</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria1" value="4" onclick="pilihSkor(this)">
+                    <div>🟢 Skor 4</div>
+                    <div style="font-size:16px; margin-top:5px;">Peran sangat mandiri & saling mendukung</div>
+                </label>
+            </div>
+        </div>
+
+        <!-- KRITERIA 2 -->
+        <div class="rubrik-card">
+            <div class="judul-kriteria">2. Gotong Royong & Pemecahan Masalah</div>
+            <div class="opsi-skor-grid">
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria2" value="1" onclick="pilihSkor(this)">
+                    <div>🔴 Skor 1</div>
+                    <div style="font-size:16px; margin-top:5px;">Sering konflik & saling menyalahkan</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria2" value="2" onclick="pilihSkor(this)">
+                    <div>🟡 Skor 2</div>
+                    <div style="font-size:16px; margin-top:5px;">Apatis jika ada anggota yang bingung</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria2" value="3" onclick="pilihSkor(this)">
+                    <div>🔵 Skor 3</div>
+                    <div style="font-size:16px; margin-top:5px;">Membantu teman jika diminta</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria2" value="4" onclick="pilihSkor(this)">
+                    <div>🟢 Skor 4</div>
+                    <div style="font-size:16px; margin-top:5px;">Inisiatif tinggi membantu teman sampai paham</div>
+                </label>
+            </div>
+        </div>
+
+        <!-- KRITERIA 3 -->
+        <div class="rubrik-card">
+            <div class="judul-kriteria">3. Kualitas Penyampaian & Infografis</div>
+            <div class="opsi-skor-grid">
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria3" value="1" onclick="pilihSkor(this)">
+                    <div>🔴 Skor 1</div>
+                    <div style="font-size:16px; margin-top:5px;">Infografis tidak selesai & sulit dibaca</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria3" value="2" onclick="pilihSkor(this)">
+                    <div>🟡 Skor 2</div>
+                    <div style="font-size:16px; margin-top:5px;">Teks terlalu panjang (kurang visual)</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria3" value="3" onclick="pilihSkor(this)">
+                    <div>🔵 Skor 3</div>
+                    <div style="font-size:16px; margin-top:5px;">Pesan jelas, perpaduan warna & teks rapi</div>
+                </label>
+                <label class="btn-skor-label">
+                    <input type="radio" name="kriteria3" value="4" onclick="pilihSkor(this)">
+                    <div>🟢 Skor 4</div>
+                    <div style="font-size:16px; margin-top:5px;">Sangat kreatif, komunikatif & interaktif</div>
+                </label>
+            </div>
+        </div>
+
+        <button class="btn-hitung" onclick="hitungNilai()">📈 Hitung Nilai Akhir Kelompok</button>
+
+        <!-- KOTAK HASIL AKHIR -->
+        <div id="hasil-penilaian">
+            <h3 style="font-size: 36px; color: #2ecc71; margin-top: 0;">📋 Hasil Evaluasi Kinerja</h3>
+            <p style="font-size: 28px;" id="teks-nama-kelompok"></p>
+            <div style="font-size: 50px; font-weight: bold; color: #e67e22; margin: 15px 0;">
+                Nilai Akhir: <span id="nilai-angka">0</span> / 100
+            </div>
+            <div id="predikat-kualitatif" style="font-size: 32px; font-weight: bold; color: #27ae60;"></div>
+            <button class="btn-hitung" style="width: auto; padding: 15px 40px; margin-top: 20px; background-color: #3498db; box-shadow: 0 6px 0 #2980b9;" onclick="window.print()">🖨️ Cetak / Simpan Hasil (PDF)</button>
+        </div>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT KALKULASI RUBRIK -->
+    <script>
+        function pilihSkor(inputRadio) {
+            const namaKriteria = inputRadio.name;
+            const semuaOpsi = document.querySelectorAll(`input[name="${namaKriteria}"]`);
+            
+            semuaOpsi.forEach(opt => {
+                opt.parentElement.classList.remove('terpilih');
+            });
+
+            inputRadio.parentElement.classList.add('terpilih');
+        }
+
+        function hitungNilai() {
+            const namaKelompok = document.getElementById('input-kelompok').value || "Kelompok Tanpa Nama";
+            
+            const k1 = document.querySelector('input[name="kriteria1"]:checked');
+            const k2 = document.querySelector('input[name="kriteria2"]:checked');
+            const k3 = document.querySelector('input[name="kriteria3"]:checked');
+
+            if (!k1 || !k2 || !k3) {
+                alert("Peringatan: Silakan pilih skor untuk ketiga kriteria di atas terlebih dahulu!");
+                return;
+            }
+
+            const totalSkorMentah = parseInt(k1.value) + parseInt(k2.value) + parseInt(k3.value);
+            const nilaiKonversi = Math.round((totalSkorMentah / 12) * 100);
+
+            document.getElementById('teks-nama-kelompok').innerText = "Penilaian untuk: " + namaKelompok;
+            document.getElementById('nilai-angka').innerText = nilaiKonversi;
+
+            const elemPredikat = document.getElementById('predikat-kualitatif');
+            if (nilaiKonversi >= 90) {
+                elemPredikat.innerText = "🏆 Predikat: Sangat Baik (A) - Kinerja Sangat Solid!";
+                elemPredikat.style.color = "#27ae60";
+            } else if (nilaiKonversi >= 75) {
+                elemPredikat.innerText = "👍 Predikat: Baik (B) - Sudah Memenuhi Ekspektasi";
+                elemPredikat.style.color = "#2980b9";
+            } else if (nilaiKonversi >= 60) {
+                elemPredikat.innerText = "⚠️ Predikat: Cukup (C) - Perlu Meningkatkan Kerjasama";
+                elemPredikat.style.color = "#f39c12";
+            } else {
+                elemPredikat.innerText = "🔴 Predikat: Perlu Bimbingan (D)";
+                elemPredikat.style.color = "#c0392b";
+            }
+
+            document.getElementById('hasil-penilaian').style.display = 'block';
+            document.getElementById('hasil-penilaian').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

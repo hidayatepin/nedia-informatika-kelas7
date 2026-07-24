@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Game 1 - Flowchart Puzzle Alur Kerja</title>
+    <style>
+        /* CSS Khusus Layar IFP (Raksasa) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            font-size: 24px; 
+            color: #2c3e50;
+            user-select: none;
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        h1 { font-size: 48px; color: #e67e22; text-align: center; margin-bottom: 10px; }
+        h2 { font-size: 28px; color: #7f8c8d; text-align: center; margin-bottom: 30px; }
+        
+        .instruksi {
+            background-color: #fef5e7;
+            border-left: 8px solid #e67e22;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 24px;
+            line-height: 1.5;
+        }
+
+        /* WADAH BALOK FLOWCHART */
+        .puzzle-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .balok-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #34495e;
+            color: white;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 0 #2c3e50;
+            transition: all 0.3s;
+        }
+
+        .balok-teks {
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nomor-urutan {
+            background-color: #e67e22;
+            color: white;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* TOMBOL KONTROL NAIK / TURUN SENTUH */
+        .tombol-kontrol {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-gerak {
+            padding: 12px 20px;
+            font-size: 22px;
+            font-weight: bold;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #bdc3c7;
+            transition: all 0.1s;
+        }
+        .btn-gerak:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #bdc3c7;
+        }
+
+        /* EFEK EVALUASI JAWABAN */
+        .benar {
+            background-color: #2ecc71 !important;
+            box-shadow: 0 6px 0 #27ae60 !important;
+        }
+        .salah {
+            background-color: #e74c3c !important;
+            box-shadow: 0 6px 0 #c0392b !important;
+        }
+
+        /* TOMBOL AKSI */
+        .btn-kembali {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #95a5a6;
+            border-radius: 10px;
+            box-shadow: 0 4px 0 #7f8c8d;
+            margin-bottom: 20px;
+        }
+        .btn-periksa {
+            width: 100%;
+            padding: 22px;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #27ae60;
+        }
+        .btn-periksa:active {
+            box-shadow: 0 2px 0 #27ae60;
+            transform: translateY(4px);
+        }
+
+        #hasil-evaluasi {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-kembali">🔙 Kembali ke Menu Utama</a>
+
+        <h1>🎮 Game 1: Flowchart Puzzle Kerja Kelompok</h1>
+        <h2>Susun Rantai Alur Kerja Proyek dari Awal hingga Akhir</h2>
+
+        <div class="instruksi">
+            🧩 <strong>Misi Kelompok:</strong> Urutan alur kerja di bawah ini masih berantakan! Ketuk tombol <strong>⬆️ Naik</strong> atau <strong>⬇️ Turun</strong> di sebelah kanan setiap balok untuk menyusun alur kerja proyek kelompok yang paling logis.
+        </div>
+
+        <div class="puzzle-list" id="wadah-puzzle">
+            <!-- Balok-balok akan diacak secara otomatis oleh JavaScript -->
+        </div>
+
+        <button class="btn-periksa" onclick="periksaUrutan()">✅ Periksa Susunan Alur</button>
+        <div id="hasil-evaluasi"></div>
+    </div>
+
+    <script>
+        // Data Urutan Kunci Jawaban yang Benar (ID 1 sampai 5)
+        const dataAlurKunci = [
+            { id: 1, teks: "👥 Pembentukan Kelompok & Diskusi Awal" },
+            { id: 2, teks: "🎯 Pembagian Peran & Tugas Anggota" },
+            { id: 3, teks: "🔍 Riset Data & Pengumpulan Bahan" },
+            { id: 4, teks: "📊 Penyusunan Infografis & Presentasi" },
+            { id: 5, teks: "🎤 Presentasi & Evaluasi di Depan Kelas" }
+        ];
+
+        // Duplikat dan acak urutan awal
+        let dataAlurSiswa = [...dataAlurKunci].sort(() => Math.random() - 0.5);
+
+        const wadahPuzzle = document.getElementById('wadah-puzzle');
+
+        // Fungsi Render Balok ke Layar
+        function renderPuzzle() {
+            wadahPuzzle.innerHTML = "";
+            dataAlurSiswa.forEach((item, index) => {
+                const balok = document.createElement('div');
+                balok.className = 'balok-item';
+                balok.id = `balok-${index}`;
+
+                balok.innerHTML = `
+                    <div class="balok-teks">
+                        <div class="nomor-urutan">${index + 1}</div>
+                        <span>${item.teks}</span>
+                    </div>
+                    <div class="tombol-kontrol">
+                        <button class="btn-gerak" onclick="pindahAtas(${index})" ${index === 0 ? 'disabled style="opacity:0.3"' : ''}>⬆️ Naik</button>
+                        <button class="btn-gerak" onclick="pindahBawah(${index})" ${index === dataAlurSiswa.length - 1 ? 'disabled style="opacity:0.3"' : ''}>⬇️ Turun</button>
+                    </div>
+                `;
+                wadahPuzzle.appendChild(balok);
+            });
+        }
+
+        // Logika Pindah Balok ke Atas
+        function pindahAtas(index) {
+            if (index > 0) {
+                const temp = dataAlurSiswa[index];
+                dataAlurSiswa[index] = dataAlurSiswa[index - 1];
+                dataAlurSiswa[index - 1] = temp;
+                renderPuzzle();
+                sembunyikanEvaluasi();
+            }
+        }
+
+        // Logika Pindah Balok ke Bawah
+        function pindahBawah(index) {
+            if (index < dataAlurSiswa.length - 1) {
+                const temp = dataAlurSiswa[index];
+                dataAlurSiswa[index] = dataAlurSiswa[index + 1];
+                dataAlurSiswa[index + 1] = temp;
+                renderPuzzle();
+                sembunyikanEvaluasi();
+            }
+        }
+
+        function sembunyikanEvaluasi() {
+            document.getElementById('hasil-evaluasi').style.display = 'none';
+        }
+
+        // Logika Evaluasi Jawaban
+        function periksaUrutan() {
+            let jumlahBenar = 0;
+
+            dataAlurSiswa.forEach((item, index) => {
+                const elemenBalok = document.getElementById(`balok-${index}`);
+                elemenBalok.classList.remove('benar', 'salah');
+
+                // Jika ID item sesuai dengan urutan kuncinya (1, 2, 3, 4, 5)
+                if (item.id === index + 1) {
+                    elemenBalok.classList.add('benar');
+                    jumlahBenar++;
+                } else {
+                    elemenBalok.classList.add('salah');
+                }
+            });
+
+            const kotakHasil = document.getElementById('hasil-evaluasi');
+            kotakHasil.style.display = 'block';
+
+            if (jumlahBenar === dataAlurSiswa.length) {
+                kotakHasil.style.backgroundColor = '#d4efdf';
+                kotakHasil.style.color = '#27ae60';
+                kotakHasil.innerHTML = "🎉 Luar Biasa! Alur Kerja Kelompok Tersusun Sempurna (100%)";
+            } else {
+                kotakHasil.style.backgroundColor = '#fadbd8';
+                kotakHasil.style.color = '#c0392b';
+                kotakHasil.innerHTML = `⚠️ Terdapat ${dataAlurSiswa.length - jumlahBenar} tahapan yang posisinya belum tepat. Coba perbaiki balok berwarna merah!`;
+            }
+        }
+
+        // Jalankan game saat halaman dibuka
+        renderPuzzle();
+    </script>
+</body>
+</html>

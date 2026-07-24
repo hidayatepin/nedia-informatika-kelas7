@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Pembelajaran Informatika</title>
+    <style>
+        /* CSS Khusus Layar IFP (Raksasa) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            text-align: center; 
+        }
+        h1 { font-size: 60px; color: #2c3e50; margin-bottom: 10px; }
+        h2 { font-size: 50px; color: #2c3e50; margin-bottom: 10px; }
+        h3 { font-size: 35px; color: #7f8c8d; margin-bottom: 60px; }
+        h4 { font-size: 20px; color: #7f8c8d; margin-bottom: 60px; }
+
+        /* Arsitektur Kotak Menu (Grid) */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Membagi layar jadi 2 kolom sama besar */
+            gap: 30px; /* Jarak antar tombol */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Desain Tombol Sentuh IFP */
+        .btn-menu {
+            display: block;
+            padding: 35px;
+            font-size: 36px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #3498db;
+            border-radius: 15px;
+            box-shadow: 0 8px 0 #2980b9;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        
+        /* Efek Ditekan */
+        .btn-menu:active { 
+            box-shadow: 0 2px 0 #2980b9; 
+            transform: translateY(6px); 
+        }
+
+        /* Kustomisasi Warna Tombol Spesifik */
+        .btn-materi { background-color: #2ecc71; box-shadow: 0 8px 0 #27ae60; }
+        .btn-materi:active { box-shadow: 0 2px 0 #27ae60; }
+        
+        .btn-video { background-color: #e74c3c; box-shadow: 0 8px 0 #c0392b; }
+        .btn-video:active { box-shadow: 0 2px 0 #c0392b; }
+        
+        .btn-kuis { background-color: #f1c40f; box-shadow: 0 8px 0 #f39c12; color: #333; }
+        .btn-kuis:active { box-shadow: 0 2px 0 #f39c12; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Media Pembelajaran Interaktif</h1>
+    <h2>MAPEL Informatika Kelas 7 Semester 1 </h2>
+    <h3>Fase D: Keterampilan Generik Berkelompok</h3>
+    <h4>Oleh Epin Hidayat,A.Md SMP MUHAMMADIYAH BAGELEN</h4>
+
+    <div class="menu-grid">
+        <!-- Tanda pagar (#) berarti halamannya belum ada/dibuat -->
+        <a href="tujuan.html" class="btn-menu">🎯 Tujuan Pembelajaran</a>
+        <a href="manfaat.html" class="btn-menu">💡 Manfaat Pembelajaran</a>
+        <a href="video.html" target="_blank" class="btn-menu btn-video">📺 Video YouTube</a>
+        
+        <!-- INI KUNCI UTAMANYA: Mengarah ke file materi kita -->
+        <a href="materi.html" class="btn-menu btn-materi">📖 Materi & Simulasi</a>
+        
+        <a href="kuis1.html" class="btn-menu btn-kuis">📝 Kuis 1</a>
+        <a href="kuis2.html" class="btn-menu btn-kuis">📝 Kuis 2</a>
+        <a href="game1.html" class="btn-menu btn-kuis">🎮 Game 1</a>
+        <a href="game2.html" class="btn-menu btn-kuis">🎮 Game 2</a>
+        <a href="assessment.html" class="btn-menu">📊 Assessment</a>
+        <a href="refleksi.html" class="btn-menu">🪞 Refleksi</a>
+    </div>
+
+</body>
+</html>

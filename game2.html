@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Game 2 - Dilema Tim & Kepemimpinan</title>
+    <style>
+        /* CSS Khusus Layar IFP (Raksasa) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            font-size: 24px; 
+            color: #2c3e50;
+            user-select: none;
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        h1 { font-size: 46px; color: #8e44ad; text-align: center; margin-bottom: 10px; }
+        h2 { font-size: 28px; color: #7f8c8d; text-align: center; margin-bottom: 30px; }
+        
+        /* INDIKATOR METRIK SKOR */
+        .dashboard-skor {
+            display: flex;
+            justify-content: space-around;
+            background-color: #f3e5f5;
+            border: 3px solid #9b59b6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .skor-item { color: #8e44ad; }
+
+        /* KOTAK SCENARIO DILEMA */
+        .skenario-card {
+            background-color: #fafafa;
+            border-left: 10px solid #8e44ad;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .judul-skenario {
+            font-size: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        .cerita-skenario {
+            font-size: 26px;
+            line-height: 1.6;
+            color: #34495e;
+            margin-bottom: 25px;
+        }
+
+        /* OPSI KEPUTUSAN (TOMBOL SENTUH) */
+        .opsi-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .btn-opsi {
+            padding: 22px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: left;
+            background-color: white;
+            border: 3px solid #bdc3c7;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #bdc3c7;
+            line-height: 1.4;
+        }
+        .btn-opsi:hover {
+            border-color: #8e44ad;
+            background-color: #f8f0fb;
+        }
+        .btn-opsi:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #bdc3c7;
+        }
+
+        /* UMPAN BALIK EVALUASI */
+        #umpan-balik {
+            display: none;
+            background-color: #e8f8f5;
+            border: 3px solid #2ecc71;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            font-size: 24px;
+            line-height: 1.5;
+        }
+
+        .btn-lanjut {
+            display: none;
+            width: 100%;
+            padding: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            background-color: #8e44ad;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #6c3483;
+            margin-top: 25px;
+        }
+
+        /* HASIL AKHIR GAME */
+        #hasil-akhir {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background-color: #f3e5f5;
+            border-radius: 15px;
+            border: 4px dashed #8e44ad;
+        }
+
+        .btn-kembali {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #95a5a6;
+            border-radius: 10px;
+            box-shadow: 0 4px 0 #7f8c8d;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-kembali">🔙 Kembali ke Menu Utama</a>
+
+        <h1>🎮 Game 2: Dilema Tim Informatika</h1>
+        <h2>Simulasi Kepemimpinan & Pemecahan Masalah Kelompok</h2>
+
+        <!-- DASHBOARD SKOR KEPEMIMPINAN -->
+        <div class="dashboard-skor">
+            <div>⭐ Skor Kepemimpinan: <span id="skor-pimpin" class="skor-item">0</span></div>
+            <div>🤝 Harmoni Tim: <span id="skor-harmoni" class="skor-item">100%</span></div>
+        </div>
+
+        <!-- WADAH SCENARIO GAME -->
+        <div id="wadah-game">
+            <div class="skenario-card">
+                <div class="judul-skenario" id="judul-kasus">Dilema 1</div>
+                <div class="cerita-skenario" id="teks-kasus">Memuat cerita...</div>
+                
+                <div class="opsi-container" id="wadah-opsi">
+                    <!-- Opsi jawaban dimasukkan oleh JavaScript -->
+                </div>
+            </div>
+
+            <!-- KOTAK UMPAN BALIK KEPUTUSAN -->
+            <div id="umpan-balik"></div>
+            <button id="btn-lanjut" class="btn-lanjut" onclick="lanjutKasus()">➡️ Lanjut ke Dilema Berikutnya</button>
+        </div>
+
+        <!-- AREA SKOR AKHIR -->
+        <div id="hasil-akhir">
+            <h2 style="font-size: 42px; color: #8e44ad; margin-top: 0;">🎉 Simulasi Selesai!</h2>
+            <p style="font-size: 30px;">Predikat Kepemimpinan Kelompokmu:</p>
+            <div id="predikat-akhir" style="font-size: 38px; font-weight: bold; color: #27ae60; margin: 20px 0;"></div>
+            <p style="font-size: 26px; color: #7f8c8d;">Gunakan pengalaman ini untuk menjadi anggota kelompok yang hebat di dunia nyata!</p>
+            <button class="btn-lanjut" style="display:inline-block; width:auto; padding: 15px 40px;" onclick="window.location.reload()">🔄 Ulangi Simulasi</button>
+        </div>
+    </div>
+
+    <script>
+        // DATA 3 SKENARIO DILEMA KELOMPOK
+        const dataDilema = [
+            {
+                judul: "🚨 Dilema 1: Anggota Bingung Membuat Infografis",
+                cerita: "Waktu pengumpulan sisa 1 jam. Anggota B yang bertugas membuat gambar infografis mengaku bingung menggunakan aplikasinya dan belum menyelesaikan apapun. Sebagai Ketua Tim, apa tindakanmu?",
+                opsi: [
+                    {
+                        teks: "A. Marah-marah dan mengambil alih seluruh pekerjaannya sendirian.",
+                        skor: 10,
+                        harmoni: -30,
+                        umpan: "❌ <strong>Kurang Tepat:</strong> Mengambil alih pekerjaan membuatmu kelelahan dan merusak hubungan tim. Anggota B juga tidak belajar apapun."
+                    },
+                    {
+                        teks: "B. Membiarkannya saja karena itu sudah menjadi tanggung jawab Anggota B.",
+                        skor: 0,
+                        harmoni: -20,
+                        umpan: "❌ <strong>Kurang Tepat:</strong> Dalam kerja kelompok, kegagalan satu anggota adalah kegagalan bersama. Tugas kelompok tidak akan selesai tepat waktu."
+                    },
+                    {
+                        teks: "C. Duduk bersama, mengajarinya fitur dasar, dan membagi tugas gambarnya agar selesai bersama.",
+                        skor: 35,
+                        harmoni: +10,
+                        umpan: "✅ <strong>Pilihan Hebat!</strong> Kamu menerapkan semangat Gotong Royong! Mengajari teman membuat pekerjaan cepat selesai dan ikatan tim makin kuat."
+                    }
+                ]
+            },
+            {
+                judul: "🗣️ Dilema 2: Perbedaan Pendapat Desain",
+                cerita: "Dua anggota timmu saling berdebat sengit. Anggota C ingin warna infografis serba Merah Cerah, sedangkan Anggota D ingin warna Biru Lembut. Suasana diskusi menjadi tegang. Apa yang kamu lakukan?",
+                opsi: [
+                    {
+                        teks: "A. Meminta mereka melihat kembali tujuan infografis (keterbacaan teks) lalu melakukan voting suara terbanyak secara adil.",
+                        skor: 35,
+                        harmoni: +10,
+                        umpan: "✅ <strong>Pilihan Hebat!</strong> Pemimpin yang bijak mengembalikan perdebatan ke tujuan awal dan menggunakan sistem musyawarah/voting yang adil."
+                    },
+                    {
+                        teks: "B. Membentak keduanya agar diam dan memaksa memakai warna pilihanmu sendiri.",
+                        skor: 5,
+                        harmoni: -25,
+                        umpan: "❌ <strong>Kurang Tepat:</strong> Otoriter membuat anggota tim merasa ide mereka tidak dihargai."
+                    },
+                    {
+                        teks: "C. Acuh tak acuh dan membiarkan mereka berdebat sampai capek sendiri.",
+                        skor: 0,
+                        harmoni: -15,
+                        umpan: "❌ <strong>Kurang Tepat:</strong> Membiarkan konflik berlarut-larut akan membuang waktu diskusi yang berharga."
+                    }
+                ]
+            },
+            {
+                judul: "😴 Dilema 3: Anggota Pasif saat Diskusi",
+                cerita: "Saat kelompok sedang asyik bertukar ide presentasi, Anggota E hanya diam, mainkan pensil, dan tidak mengeluarkan pendapat sama sekali. Bagaimana caramu mengajak Anggota E terlibat?",
+                opsi: [
+                    {
+                        teks: "A. Mengejeknya di depan umum karena dianggap tidak niat belajar.",
+                        skor: 0,
+                        harmoni: -40,
+                        umpan: "❌ <strong>Sangat Buruk:</strong> Mengejek akan membuat temanmu makin minder, takut salah, dan menarik diri dari kelompok."
+                    },
+                    {
+                        teks: "B. Menyapa dengan ramah, lalu memberikan pertanyaan sederhana: 'Menurutmu, dari 2 ide ini mana yang paling menarik?'",
+                        skor: 30,
+                        harmoni: +10,
+                        umpan: "✅ <strong>Pilihan Hebat!</strong> Memberikan pertanyaan pemancing yang ramah akan membuat anggota pemalu merasa aman dan dihargai untuk berpendapat."
+                    },
+                    {
+                        teks: "C. Mengabaikannya dan hanya mencatat nama anggota yang aktif saja.",
+                        skor: 10,
+                        harmoni: -10,
+                        umpan: "❌ <strong>Kurang Tepat:</strong> Tugas kelompok bertujuan agar SEMUA anggota belajar bersama, bukan meninggalkan teman yang pasif."
+                    }
+                ]
+            }
+        ];
+
+        let indeksKasus = 0;
+        let totalSkorPimpin = 0;
+        let totalHarmoni = 100;
+
+        const teksJudul = document.getElementById('judul-kasus');
+        const teksCerita = document.getElementById('teks-kasus');
+        const wadahOpsi = document.getElementById('wadah-opsi');
+        const kotakUmpan = document.getElementById('umpan-balik');
+        const btnLanjut = document.getElementById('btn-lanjut');
+
+        function muatKasus() {
+            kotakUmpan.style.display = 'none';
+            btnLanjut.style.display = 'none';
+            wadahOpsi.innerHTML = '';
+
+            const kasusAktif = dataDilema[indeksKasus];
+            teksJudul.innerText = kasusAktif.judul;
+            teksCerita.innerText = kasusAktif.cerita;
+
+            kasusAktif.opsi.forEach((opsi, idx) => {
+                const tombol = document.createElement('button');
+                tombol.className = 'btn-opsi';
+                tombol.innerHTML = opsi.teks;
+                tombol.onclick = () => pilihJawaban(opsi);
+                wadahOpsi.appendChild(tombol);
+            });
+        }
+
+        function pilihJawaban(opsiTerpilih) {
+            // Kunci semua tombol opsi
+            const semuaTombol = wadahOpsi.querySelectorAll('.btn-opsi');
+            semuaTombol.forEach(btn => btn.disabled = true);
+
+            // Update Skor
+            totalSkorPimpin += opsiTerpilih.skor;
+            totalHarmoni += opsiTerpilih.harmoni;
+            if (totalHarmoni > 100) totalHarmoni = 100;
+            if (totalHarmoni < 0) totalHarmoni = 0;
+
+            document.getElementById('skor-pimpin').innerText = totalSkorPimpin;
+            document.getElementById('skor-harmoni').innerText = totalHarmoni + '%';
+
+            // Tampilkan Umpan Balik
+            kotakUmpan.innerHTML = opsiTerpilih.umpan;
+            kotakUmpan.style.display = 'block';
+            btnLanjut.style.display = 'block';
+        }
+
+        function lanjutKasus() {
+            indeksKasus++;
+            if (indeksKasus < dataDilema.length) {
+                muatKasus();
+            } else {
+                tampilkanHasilAkhir();
+            }
+        }
+
+        function tampilkanHasilAkhir() {
+            document.getElementById('wadah-game').style.display = 'none';
+            const kotakHasil = document.getElementById('hasil-akhir');
+            const teksPredikat = document.getElementById('predikat-akhir');
+            kotakHasil.style.display = 'block';
+
+            if (totalSkorPimpin >= 80) {
+                teksPredikat.innerText = "🌟 Pemimpin Bijak & Inklusif (Skor " + totalSkorPimpin + ")";
+                teksPredikat.style.color = "#27ae60";
+            } else if (totalSkorPimpin >= 50) {
+                teksPredikat.innerText = "👍 Pemimpin Cukup Baik (Skor " + totalSkorPimpin + ")";
+                teksPredikat.style.color = "#f39c12";
+            } else {
+                teksPredikat.innerText = "⚠️ Perlu Banyak Belajar Berempati (Skor " + totalSkorPimpin + ")";
+                teksPredikat.style.color = "#c0392b";
+            }
+        }
+
+        // Jalankan game saat pertama dibuka
+        muatKasus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Pembelajaran</title>
+    <style>
+        /* CSS Khusus Layar IFP */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            text-align: center;
+            color: #2c3e50;
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        h1 { font-size: 48px; color: #e74c3c; margin-bottom: 20px; }
+        p { font-size: 26px; color: #7f8c8d; margin-bottom: 30px; }
+
+        /* WADAH VIDEO RESPONSIP (16:9) */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Rasio Layar TV 16:9 */
+            height: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+            background-color: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Tombol Kembali ke Dashboard */
+        .btn-kembali {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #95a5a6;
+            border-radius: 10px;
+            box-shadow: 0 6px 0 #7f8c8d;
+            transition: all 0.1s;
+        }
+        .btn-kembali:active {
+            box-shadow: 0 2px 0 #7f8c8d;
+            transform: translateY(4px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>📺 Video Pembelajaran Informatika</h1>
+        <p>Simak video di bawah ini untuk memahami pentingnya kolaborasi dan keterampilan generik:</p>
+
+        <!-- WADAH FRAME YOUTUBE -->
+        <div class="video-container">
+            <iframe 
+                src="https://www.youtube.com/embed/6ZqgLBcBpCo" 
+                title="Video Pembelajaran Informatika" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <!-- TOMBOL DARURAT (Gunakan jika koneksi sekolah memblokir YouTube) -->
+        <div style="margin-top: 20px; margin-bottom: 30px;">
+            <a href="https://youtu.be/6ZqgLBcBpCo" target="_blank" style="background-color: #cc0000; color: white; padding: 15px 25px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 22px; display: inline-block;">
+                ▶️ Buka Langsung di Aplikasi YouTube
+            </a>
+        </div>
+
+        <!-- Tombol Navigasi Kembali -->
+        <a href="index.html" class="btn-kembali">🔙 Kembali ke Menu Utama</a>
+    </div>
+
+</body>
+</html>

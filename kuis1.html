@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kuis 1 - Keterampilan Generik</title>
+    <style>
+        /* CSS Khusus Layar IFP (Raksasa) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6; 
+            padding: 40px; 
+            font-size: 26px; 
+            color: #2c3e50;
+        }
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+        }
+        h1 { font-size: 48px; color: #f1c40f; text-align: center; text-shadow: 1px 1px 2px #d4ac0d; margin-bottom: 10px; }
+        h2 { font-size: 30px; color: #7f8c8d; text-align: center; margin-bottom: 40px; }
+        
+        .soal-card {
+            background-color: #fcf8e3;
+            border-left: 10px solid #f1c40f;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .pertanyaan {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Opsi Jawaban Berbentuk Tombol Sentuh Besar */
+        .opsi-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .btn-opsi {
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: left;
+            background-color: white;
+            border: 3px solid #bdc3c7;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-opsi:hover {
+            border-color: #3498db;
+            background-color: #ebf5fb;
+        }
+
+        /* Status Jawaban */
+        .btn-benar {
+            background-color: #2ecc71 !important;
+            color: white !important;
+            border-color: #27ae60 !important;
+        }
+        .btn-salah {
+            background-color: #e74c3c !important;
+            color: white !important;
+            border-color: #c0392b !important;
+        }
+
+        /* Hasil Skor Akhir */
+        #hasil-skor {
+            display: none;
+            background-color: #e8f8f5;
+            border: 4px dashed #2ecc71;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        /* Tombol Navigasi */
+        .btn-kembali {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            background-color: #95a5a6;
+            border-radius: 10px;
+            box-shadow: 0 4px 0 #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .btn-ulang {
+            padding: 20px 40px;
+            font-size: 28px;
+            font-weight: bold;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #2980b9;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="btn-kembali">🔙 Kembali ke Menu Utama</a>
+
+        <h1>📝 Kuis 1: Keterampilan Generik</h1>
+        <h2>Uji Pemahaman Kolaborasi & Komunikasi</h2>
+
+        <!-- WADAH SOAL -->
+        <div id="wadah-kuis">
+            <!-- Soal 1 -->
+            <div class="soal-card" id="soal-1">
+                <div class="pertanyaan">1. Saat membuat proyek karya Informatika di sekolah, pekerjaan terasa lebih cepat selesai karena setiap anggota memiliki tugas masing-masing. Kemampuan bekerja sama ini disebut...</div>
+                <div class="opsi-container">
+                    <button class="btn-opsi" onclick="cekJawaban(1, 'A', false, this)">A. Berpikir Individual</button>
+                    <button class="btn-opsi" onclick="cekJawaban(1, 'B', true, this)">B. Keterampilan Generik (Kolaborasi)</button>
+                    <button class="btn-opsi" onclick="cekJawaban(1, 'C', false, this)">C. Pemrograman Mandiri</button>
+                    <button class="btn-opsi" onclick="cekJawaban(1, 'D', false, this)">D. Kompetisi Kelas</button>
+                </div>
+            </div>
+
+            <!-- Soal 2 -->
+            <div class="soal-card" id="soal-2">
+                <div class="pertanyaan">2. Dalam kelompok Informatika, Budi bertugas memimpin diskusi dan membagi tugas, sedangkan Siti bertugas mencatat poin-poin penting. Peran Budi dan Siti berturut-turut adalah...</div>
+                <div class="opsi-container">
+                    <button class="btn-opsi" onclick="cekJawaban(2, 'A', false, this)">A. Sekretaris dan Ketua Tim</button>
+                    <button class="btn-opsi" onclick="cekJawaban(2, 'B', true, this)">B. Ketua Tim dan Sekretaris</button>
+                    <button class="btn-opsi" onclick="cekJawaban(2, 'C', false, this)">C. Anggota Riset dan Desainer</button>
+                    <button class="btn-opsi" onclick="cekJawaban(2, 'D', false, this)">D. Ketua Tim dan Anggota Riset</button>
+                </div>
+            </div>
+
+            <!-- Soal 3 -->
+            <div class="soal-card" id="soal-3">
+                <div class="pertanyaan">3. Setelah berdiskusi, kelompokmu ingin menyampaikan rencana kerja menggunakan perpaduan teks ringkas, gambar, dan warna menarik. Bentuk komunikasi visual ini disebut...</div>
+                <div class="opsi-container">
+                    <button class="btn-opsi" onclick="cekJawaban(3, 'A', true, this)">A. Infografis</button>
+                    <button class="btn-opsi" onclick="cekJawaban(3, 'B', false, this)">B. Novel</button>
+                    <button class="btn-opsi" onclick="cekJawaban(3, 'C', false, this)">C. Kode Program</button>
+                    <button class="btn-opsi" onclick="cekJawaban(3, 'D', false, this)">D. Surat Resmi</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AREA HASIL SKOR -->
+        <div id="hasil-skor">
+            <h2 style="color: #2ecc71; font-size: 45px; margin: 0;">🎉 Kuis Selesai!</h2>
+            <p style="font-size: 35px; margin: 20px 0;">Skor Kamu: <span id="nilai-skor" style="font-weight: bold; color: #e67e22;">0</span> / 100</p>
+            <button class="btn-ulang" onclick="window.location.reload()">🔄 Coba Lagi</button>
+        </div>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT KUIS -->
+    <script>
+        let skor = 0;
+        let soalTerjawab = 0;
+        const totalSoal = 3;
+
+        function cekJawaban(nomorSoal, pilihan, apakahBenar, tombolElement) {
+            // Ambil semua tombol opsi pada soal tersebut untuk dikunci
+            const wadahSoal = document.getElementById('soal-' + nomorSoal);
+            const semuaTombol = wadahSoal.querySelectorAll('.btn-opsi');
+
+            // Kunci semua tombol agar tidak bisa diklik dua kali
+            semuaTombol.forEach(btn => btn.disabled = true);
+
+            // Beri warna respon langsung
+            if (apakahBenar) {
+                tombolElement.classList.add('btn-benar');
+                skor += Math.round(100 / totalSoal); // Tambah skor (misal 33.3 poin per soal)
+            } else {
+                tombolElement.classList.add('btn-salah');
+            }
+
+            soalTerjawab++;
+
+            // Jika semua soal sudah dijawab, tampilkan skor akhir
+            if (soalTerjawab === totalSoal) {
+                setTimeout(() => {
+                    // Pembulatan nilai akhir agar jadi 100 jika benar semua
+                    if (skor > 90) skor = 100; 
+                    document.getElementById('nilai-skor').innerText = skor;
+                    document.getElementById('hasil-skor').style.display = 'block';
+                    
+                    // Gulir otomatis ke bawah menuju kotak skor
+                    document.getElementById('hasil-skor').scrollIntoView({ behavior: 'smooth' });
+                }, 800);
+            }
+        }
+    </script>
+</body>
+</html>
